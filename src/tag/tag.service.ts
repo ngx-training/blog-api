@@ -1,10 +1,14 @@
-import { forwardRef, Inject, Injectable, OnApplicationShutdown, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { CategoryService } from 'src/category/category.service';
+import { Injectable, OnApplicationShutdown, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
+import { Tag } from './entities/tag.entity';
 
 @Injectable()
 export class TagService implements OnModuleInit, OnModuleDestroy, OnApplicationShutdown {
+
+  constructor(@InjectRepository(Tag) private tagRepository: Repository<Tag>) {}
 
   onModuleInit() {
     console.log('This module has been initialized');
@@ -19,11 +23,13 @@ export class TagService implements OnModuleInit, OnModuleDestroy, OnApplicationS
   }
 
   create(createTagDto: CreateTagDto) {
-    return 'This action adds a new tag';
+    return this.tagRepository.create(createTagDto);
+    //return 'This action adds a new tag';
   }
 
-  findAll() {
-    return `This action returns all tag`;
+  findAll(): Promise<Tag[]> {
+    return this.tagRepository.find();
+    //return `This action returns all tag`;
   }
 
   findOne(id: number) {
