@@ -34,8 +34,8 @@ export class TagService implements OnModuleInit, OnModuleDestroy, OnApplicationS
     return this.tagRepository.findOne(id);
   }
 
-  update(id: number, updateTagDto: UpdateTagDto) {
-    return `This action updates a #${id} tag`;
+  async update(id: number, updateTagDto: UpdateTagDto): Promise<void> {
+    await this.tagRepository.update(id, updateTagDto);
   }
 
   async remove(id: number): Promise<void> {
