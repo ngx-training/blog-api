@@ -23,24 +23,22 @@ export class TagService implements OnModuleInit, OnModuleDestroy, OnApplicationS
   }
 
   create(createTagDto: CreateTagDto) {
-    return this.tagRepository.create(createTagDto);
-    //return 'This action adds a new tag';
+    return this.tagRepository.save(createTagDto);
   }
 
-  findAll(): Promise<Tag[]> {
+  async findAll(): Promise<Tag[]> {
     return this.tagRepository.find();
-    //return `This action returns all tag`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tag`;
+  async findOne(id: number): Promise<Tag> {
+    return this.tagRepository.findOne(id);
   }
 
   update(id: number, updateTagDto: UpdateTagDto) {
     return `This action updates a #${id} tag`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tag`;
+  async remove(id: number): Promise<void> {
+    await this.tagRepository.delete(id);
   }
 }
